@@ -59,7 +59,9 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $user = User::find($id);
+        $parameters = ['user' => $user];
+        return view('user-manager.show', $parameters);
     }
 
     /**
@@ -67,7 +69,9 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $user = User::find($id);
+        $parameters = ['user' => $user];
+        return view('user-manager.edit', $parameters);
     }
 
     /**
@@ -75,7 +79,16 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $user = User::find($id);
+    
+        Validator::make($request->all(), [
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
+        ])->validate();
+    
+        $user->update($request->all());
+    
+        return redirect()->route('user-manager.show', $user->id);
     }
 
     /**
