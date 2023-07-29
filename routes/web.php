@@ -28,6 +28,7 @@ Route::middleware([
     })->name('dashboard');
 
     Route::resource('user-manager', UserController::class)->names([
-        'index' => 'user-manager.index'
+        'index' => 'user-manager.index',
+        'create' => 'user-manager.create'
     ]);
 });
