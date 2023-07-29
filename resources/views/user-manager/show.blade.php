@@ -9,6 +9,7 @@
 
 @section('content')
 
+<x-validation-errors class="mb-4" />
 <div class="p-6 lg:p-8 bg-white dark:bg-gray-800 dark:bg-gradient-to-bl dark:from-gray-700/50 dark:via-transparent border-b border-gray-200 dark:border-gray-700">
     <div class="flex items-left justify-left space-x-3">
         <img class="rounded-full block h-12 w-auto" src="{{ $user->profile_photo_url }}" alt="profile picture">
@@ -30,11 +31,13 @@
         </x-button>
     </a>
 
-    <a href="#">
-        <x-danger-button class="ml-3" wire:click="deleteUser" wire:loading.attr="disabled">
+    <form action="{{ route('user-manager.destroy', $user->id) }}" method="POST">
+        @csrf
+        @method('DELETE')
+        <x-danger-button class="ml-3" type="submit">
             {{ __('Delete') }}
         </x-danger-button>
-    </a>
+    </form>
 </div>
 
 @endsection
